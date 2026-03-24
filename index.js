@@ -26,6 +26,8 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(express.static("public"));
+
 app.use('/qr-scanner', express.static('node_modules/qr-scanner'));
 
 app.use("/uploads", express.static("uploads"));
@@ -35,10 +37,11 @@ app.use((req, res) => {
     res.status(404).send('Page Not Found');
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+app.get("/", (req, res) => {
+  res.send("ShortLink running 🚀");
 });
+
+module.exports = app;
 
 //Authentication using Session
 
