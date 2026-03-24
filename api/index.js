@@ -1,5 +1,5 @@
 const app = require("../index");
 
-export default function handler(req, res) {
+module.exports = (req, res) => {
   return app(req, res);
-}
+};
