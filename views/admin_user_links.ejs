@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>User Links</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    padding: 20px;
+}
+
+.dashboard {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #2563eb;
+}
+
+.back-btn {
+    padding: 8px 14px;
+    background: #111827;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background: black;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.card h2 {
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #2563eb;
+    color: white;
+}
+
+thead th {
+    padding: 12px;
+    text-align: left;
+}
+
+tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: 0.2s;
+}
+
+tbody tr:hover {
+    background: #eef2ff;
+}
+
+td {
+    padding: 12px;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+/* URL styling */
+.url-text {
+    max-width: 200px;
+    word-break: break-all;
+    color: #555;
+}
+
+/* Badge */
+.code-badge {
+    background: #e0f2fe;
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: #0369a1;
+    font-weight: 500;
+}
+
+/* QR */
+.qr-image {
+    border-radius: 6px;
+}
+
+/* Button */
+.action-btn {
+    padding: 6px 12px;
+    background: #2563eb;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    display: inline-block;
+}
+
+.action-btn:hover {
+    background: #1d4ed8;
+}
+
+.no-links {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <div class="header">
+        <div class="logo">Short<span>ly</span></div>
+        <button class="back-btn" onclick="history.back()">← Back</button>
+    </div>
+
+    <div class="card">
+
+        <h2><%= user.username %> - Links</h2>
+
+        <% if (links.length > 0) { %>
+
+        <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Original URL</th>
+                    <th>Short URL</th>
+                    <th>Code</th>
+                    <th>QR</th>
+                    <th>Clicks</th>
+                    <th>Analytics</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% links.forEach(link => { %>
+                <tr>
+                    <td><%= link.id %></td>
+
+                    <td class="url-text">
+                        <%= link.original_url %>
+                    </td>
+
+                    <td class="url-text">
+                       <%= link.short_url %>
+                    </td>
+
+                    <td>
+                        <span class="code-badge">
+                            <%= link.short_code %>
+                        </span>
+                    </td>
+
+                    <td>
+                        <img src="<%= link.qrcode_path %>" width="70" class="qr-image">
+                    </td>
+
+                    <td>
+                        <strong><%= link.count %></strong>
+                    </td>
+
+                    <td>
+                        <a href="/admin/link/<%= link.id %>" class="action-btn">
+                            View
+                        </a>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        </div>
+
+        <% } else { %>
+            <div class="no-links">No links found for this user.</div>
+        <% } %>
+
+    </div>
+
+</div>
+
+</body>
+</html>

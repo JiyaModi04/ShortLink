@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shortly - Dashboard</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f6f9;
+    padding: 20px;
+}
+
+.dashboard {
+    max-width: 900px;
+    margin: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.logo span {
+    color:#2563eb ;
+}
+
+.logout-btn {
+    padding: 8px 16px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: #dc2626;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.input-group {
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #555;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.radio-group {
+    display: flex;
+    gap: 20px;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #2563eb;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-secondary {
+    background-color: #111827;
+}
+
+.btn-secondary:hover {
+    background-color: #000;
+}
+
+.result-box {
+    display: none;
+    padding: 15px;
+    background-color: #e0f2fe;
+    border-radius: 8px;
+    margin-top: 15px;
+    word-break: break-all;
+}
+
+.result-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <div class="header">
+        <div class="logo">Short<span>ly</span></div>
+
+        <form action="/logout" method="post">
+            <button class="logout-btn">Logout</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Create Short Link</h2>
+
+        <div class="input-group">
+            <label>Enter Original URL</label>
+            <input type="url" id="original_url" placeholder="https://example.com">
+        </div>
+
+        <div class="input-group">
+            <label>Short Code Option</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="short_code_option" value="auto" checked onclick="toggleCustom(false)">
+                    Auto Generate
+                </label>
+                <label>
+                    <input type="radio" name="short_code_option" value="custom" onclick="toggleCustom(true)">
+                    Custom Code
+                </label>
+            </div>
+        </div>
+
+        <div class="input-group" id="customCodeGroup" style="display:none;">
+            <label>Custom Code</label>
+            <input type="text" id="custom_code">
+        </div>
+
+        <div class="input-group">
+            <label>Expiry Date</label>
+            <input type="date" id="expiry_date">
+        </div>
+
+        <button class="btn" onclick="generateLink()">Generate Short Link</button>
+        <button class="btn btn-secondary" onclick="generateQR()">Generate QR Code</button>
+
+        <div id="resultBox" class="result-box">
+            <div class="result-title">Generated Output</div>
+            <div id="resultContent"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <form action="/all_links" method="post">
+            <button class="btn">View All Short Links</button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+
+function toggleCustom(show){
+    document.getElementById("customCodeGroup").style.display = show ? "block" : "none";
+}
+
+function getdata(){
+    return {
+        original_url: document.getElementById("original_url").value,
+        custom_code: document.getElementById("custom_code").value,
+        expiry_date: document.getElementById("expiry_date").value,
+        short_code_option: document.querySelector('input[name="short_code_option"]:checked').value
+    }
+}
+
+async function generateLink(){
+    const data = getdata();
+
+    try{
+        const res = await fetch("/user/dashboard/shortlink",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify(data)
+        });
+
+        const result = await res.text();
+
+        showResult(result);
+
+    }catch(err){
+        console.error(err);
+    }
+}
+
+async function generateQR(){
+    const data = getdata();
+
+    try{
+        const res = await fetch("/user/dashboard/qrcode",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify(data)
+        });
+
+        const result = await res.text();
+
+        showResult(result);
+
+    }catch(err){
+        console.error(err);
+    }
+}
+
+function showResult(content){
+    const box = document.getElementById("resultBox");
+    const resultContent = document.getElementById("resultContent");
+
+    resultContent.innerHTML = content;
+    box.style.display = "block";
+}
+
+</script>
+
+</body>
+</html>

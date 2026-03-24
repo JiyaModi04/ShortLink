@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shortly - Admin Dashboard</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    padding: 20px;
+}
+
+.dashboard {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #2563eb;
+}
+
+.logout-btn {
+    padding: 8px 16px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: #dc2626;
+}
+
+.card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #2563eb;
+    color: white;
+}
+
+thead th {
+    padding: 12px;
+    text-align: left;
+}
+
+tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: 0.2s;
+}
+
+tbody tr:hover {
+    background: #eef2ff;
+}
+
+td {
+    padding: 12px;
+    font-size: 14px;
+}
+
+.role-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.role-admin {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.role-user {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.no-users {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <div class="header">
+        <div class="logo">Short<span>ly</span></div>
+
+        <form action="/logout" method="post">
+            <button class="logout-btn">Logout</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2 style="margin-bottom:15px;">All Users</h2>
+
+        <% if (users.length > 0) { %>
+
+        <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% users.forEach(user => { %>
+                <tr>
+                    <td>
+                        <a href="/admin/user/<%= user.id %>"><%= user.username %></a>
+                    </td>
+                    <td><%= user.email %></td>
+                    <td>
+                        <span class="role-badge <%= user.role === 'admin' ? 'role-admin' : 'role-user' %>">
+                            <%= user.role %>
+                        </span>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        </div>
+
+        <% } else { %>
+            <div class="no-users">No registered users found.</div>
+        <% } %>
+
+    </div>
+
+</div>
+
+</body>
+</html>

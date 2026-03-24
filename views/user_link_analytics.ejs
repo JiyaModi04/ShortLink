@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Link Analytics</title>
+
+<style>
+body {
+    background: #f4f6f9;
+    font-family: Arial;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #2563eb;
+}
+
+.back-btn {
+    padding: 6px 12px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #e5e7eb;
+}
+
+.stats {
+    display: flex;
+    gap: 15px;
+}
+
+.stat {
+    flex: 1;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+}
+
+.stat h2 {
+    color: #2563eb;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #2563eb;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div class="logo">Short<span>ly</span></div>
+        <button class="back-btn" onclick="history.back()">← Back</button>
+    </div>
+
+    <div class="card">
+        <h2>Link Info</h2>
+        <p><strong>Short URL:</strong> <%= link.short_url %></p>
+        <p><strong>Original URL:</strong> <%= link.original_url %></p>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <h2><%= link.count %></h2>
+            <p>Total Clicks</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Visit Details</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>IP</th>
+                    <th>Device</th>
+                    <th>Browser</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% analytics.forEach(a => { %>
+                <tr>
+                    <td><%= a.ip %></td>
+                    <td><%= a.device %></td>
+                    <td><%= a.browser %></td>
+                    <td><%= a.accessed_at %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

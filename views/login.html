@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shortly - Login</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f4f6f9, #eef2f7, #e6ecf5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 450px;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 
+        0px 4px 6px rgba(0,0,0,0.05),
+        0px 10px 20px rgba(0,0,0,0.08);
+}
+
+.logo {
+    text-align: center;
+    font-size: 38px;
+    font-weight: bolder;
+    margin-bottom: 23px;
+}
+
+.logo span {
+    color: #1b4aae;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 22px;
+    color: black;
+}
+
+input{
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+    background-color : #f9fafb;
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    font-size: 14px;
+    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
+    color: #555;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #2563eb;
+    transform: translateY(-2px);
+    transition: all 0.2s ease;
+    color: black;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 17px;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+button:hover {
+    background: #0f3499;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    transition: all 0.25s ease;
+}
+
+.register-text {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.register-text a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="logo">Short<span>ly</span></div>
+    <h2>Login</h2>
+
+    <form action="/login" method="post">
+
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" name="email" required>
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" name="password" required minlength="6">
+        </div>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div class="register-text">
+        Don't have an account? <a href="/">Register here</a>
+    </div>
+</div>
+
+</body>
+</html>

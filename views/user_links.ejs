@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shortly User Links</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    padding: 20px;
+}
+
+.dashboard {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.logo span {
+    color:#2563eb;
+}
+
+.back-btn {
+    padding: 8px 14px;
+    background: #111827;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background: black;
+}
+
+.card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #2563eb;
+    color: white;
+}
+
+thead th {
+    padding: 12px;
+    text-align: left;
+}
+
+tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: 0.2s;
+}
+
+tbody tr:hover {
+    background: #eef2ff;
+}
+
+td {
+    padding: 12px;
+    font-size: 14px;
+}
+
+.link-badge {
+    background: #e0f2fe;
+    padding: 6px 10px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.link-badge a {
+    text-decoration: none;
+    color: #0369a1;
+}
+
+.qr-box img {
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.qr-box a {
+    font-size: 13px;
+    margin-right: 8px;
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.action-btn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.action-btn:hover {
+    background: #1d4ed8;
+}
+
+.no-links {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}
+
+#scanResult {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.scanner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    flex-direction: column;
+}
+
+.scanner-box {
+    width: 260px;
+    height: 260px;
+    border: 3px solid #00ffcc;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.scanner-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    z-index: 1;
+}
+
+.scan-line {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: red;
+    animation: scanmove 2s linear infinite;
+    z-index: 2;
+}
+
+@keyframes scanmove {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+.scanner-overlay p {
+    color: white;
+    margin-top: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <div class="header">
+        <div class="logo">Short<span>ly</span></div>
+        <button class="back-btn" onclick="history.back()">← Back</button>
+    </div>
+
+    <div class="card">
+        <h2 style="margin-bottom:15px;">All Short Links</h2>
+
+        <% if (links.length > 0) { %>
+
+        <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Original URL</th>
+                    <th>Short Code</th>
+                    <th>Expiry</th>
+                    <th>Short Link</th>
+                    <th>QR</th>
+                    <th>Clicks</th>
+                    <th>Analytics</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% links.forEach(link => { %>
+                <tr>
+                    <td><%= link.id %></td>
+
+                    <td style="max-width:200px; word-break:break-all;">
+                        <%= link.original_url %>
+                    </td>
+
+                    <td><%= link.short_code %></td>
+                    <td><%= link.expiry_date %></td>
+
+                    <td>
+                        <span class="link-badge">
+                            <a href="<%= link.short_url %>" target="_blank">
+                                Visit
+                            </a>
+                        </span>
+                    </td>
+
+                    <td class="qr-box">
+                        <img src="<%= link.qrcode_path %>" width="80" class="qr-image">
+                        <br>
+                        <a href="<%= link.qrcode_path %>" download>Download</a>
+                        <button class="action-btn" onclick="scanQR(this)">Scan</button>
+                    </td>
+
+                    <td><strong><%= link.count %></strong></td>
+                    <td>
+                        <button class="action-btn" data-id="<%= link.id %>" onclick="viewAnalytics(this)">
+                            View Analytics
+                        </button>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        </div>
+
+        <% } else { %>
+            <div class="no-links">No links found.</div>
+        <% } %>
+
+        <div id="scanResult"></div>
+    </div>
+
+</div>
+
+<div id="scannerOverlay" class="scanner-overlay">
+    <div class="scanner-box">
+        <img id="scannerImage" src="">
+        <div class="scan-line"></div>
+    </div>
+    <p>Scanning QR Code...</p>
+</div>
+
+<script type="module">
+import QrScanner from "https://cdn.jsdelivr.net/npm/qr-scanner@1.4.2/qr-scanner.min.js";
+window.QrScanner = QrScanner;
+</script>
+
+<script>
+async function scanQR(element) {
+    const overlay = document.getElementById("scannerOverlay");
+    const scannerImg = document.getElementById("scannerImage");
+
+    try {
+        overlay.style.display = "flex";
+
+        const row = element.closest("tr");
+        const img = row.querySelector(".qr-image");
+
+        scannerImg.src = img.src;
+
+        const image = new Image();
+        image.crossOrigin = "anonymous";
+        image.src = img.src;
+
+        await new Promise(resolve => image.onload = resolve);
+
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = image.width;
+        canvas.height = image.height;
+        ctx.drawImage(image, 0, 0);
+
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        const result = await QrScanner.scanImage(canvas);
+
+        overlay.style.display = "none";
+
+        document.getElementById("scanResult").innerHTML =
+            `<a href="${result}" target="_blank">${result}</a>`;
+
+    } catch (err) {
+        overlay.style.display = "none";
+        document.getElementById("scanResult").innerText = "QR Scan Failed";
+    }
+}
+
+function viewAnalytics(btn){
+    const id = btn.getAttribute("data-id");
+    window.location.href = `/user/link/${id}`;
+}
+</script>
+
+</body>
+</html>
