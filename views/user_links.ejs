@@ -241,16 +241,20 @@ td {
                     <td>
                         <span class="link-badge">
                             <a href="<%= link.short_url %>" target="_blank">
-                                Visit
+                                <%= link.short_url %>
                             </a>
                         </span>
                     </td>
-
                     <td class="qr-box">
                         <img src="<%= link.qrcode_path %>" width="80" class="qr-image">
                         <br>
-                        <a href="<%= link.qrcode_path %>" download>Download</a>
-                        <button class="action-btn" onclick="scanQR(this)">Scan</button>
+                        <% if(link.qrcode_path) { %>
+                            <a href="<%= link.qrcode_path %>">Preview</a>
+                            <a href="<%= link.qrcode_path %>" download>Download</a>
+                            <button class="action-btn" onclick="scanQR(this)">Scan</button>
+                        <% } else { %>
+                            <p style="color: blue;">NO QR</p>
+                        <%   }   %>
                     </td>
 
                     <td><strong><%= link.count %></strong></td>
