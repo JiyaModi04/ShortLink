@@ -2,6 +2,7 @@ const express = require('express');
 const pool = require('./utils/databaseutil');
 const cookieParser = require("cookie-parser");
 const path = require('path');
+const fs = require("fs");
 
 const app = express();
 
@@ -13,7 +14,14 @@ app.use(cookieParser());
 const userRoutes = require('./routes/userRouter');
 const adminRoutes = require('./routes/adminRouter');
 
-pool.connect().then(() => console.log("connected"));
+(async () => {
+  try {
+    await pool.connect();
+    console.log("DB connected");
+  } catch (err) {
+    console.error("DB connection failed:", err.message);
+  }
+})();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
@@ -26,36 +34,22 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.static("public"));
-
 app.use('/qr-scanner', express.static('node_modules/qr-scanner'));
 
-app.use("/uploads", express.static("uploads"));
+if (fs.existsSync("public")) {
+  app.use(express.static("public"));
+}
 
-
-app.use((req, res) => {
-    res.status(404).send('Page Not Found');
-});
+if (fs.existsSync("uploads")) {
+  app.use("/uploads", express.static("uploads"));
+}
 
 app.get("/", (req, res) => {
   res.send("ShortLink running 🚀");
 });
 
+app.use((req, res) => {
+    res.status(404).send('Page Not Found');
+});
+
 module.exports = app;
-
-//Authentication using Session
-
-// const session = require('express-session');
-// const pgsession = require('connect-pg-simple')(session);
-
-// app.use(session({
-//     store : new pgsession({
-//     pool : pool,
-//     tableName : 'session',
-//     createTableIfMissing: true 
-//     }),
-//     secret: 'supersecretkey',
-//     resave: false,
-//     saveUninitialized : false,
-//     cookie: { maxAge: 1000 * 60 * 60 }
-// }));
