@@ -194,6 +194,47 @@ td {
     margin-top: 10px;
 }
 
+.preview-modal {
+    display: none;
+    position: fixed;
+    z-index: 20;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.preview-content {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    position: relative;
+    width: 320px;  
+    text-align: center;
+    animation: popup 0.3s ease;
+}
+
+.preview-content img {
+    width: 100%;
+    border-radius: 6px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+@keyframes popup {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
 </style>
 </head>
 
@@ -249,7 +290,7 @@ td {
                         <img src="<%= link.qrcode_path %>" width="80" class="qr-image">
                         <br>
                         <% if(link.qrcode_path) { %>
-                            <a href="<%= link.qrcode_path %>">Preview</a>
+                            <a href="#" onclick="openPreview('<%= link.qrcode_path %>')">Preview</a>
                             <a href="<%= link.qrcode_path %>" download>Download</a>
                             <button class="action-btn" onclick="scanQR(this)">Scan</button>
                         <% } else { %>
@@ -284,6 +325,13 @@ td {
         <div class="scan-line"></div>
     </div>
     <p>Scanning QR Code...</p>
+</div>
+
+<div id="previewModal" class="preview-modal">
+    <div class="preview-content">
+        <span class="close-btn" onclick="closePreview()">×</span>
+        <img id="previewImg" src="">
+    </div>
 </div>
 
 <script type="module">
@@ -335,6 +383,18 @@ async function scanQR(element) {
 function viewAnalytics(btn){
     const id = btn.getAttribute("data-id");
     window.location.href = `/user/link/${id}`;
+}
+
+function openPreview(src) {
+    const modal = document.getElementById("previewModal");
+    const img = document.getElementById("previewImg");
+
+    img.src = src;
+    modal.style.display = "flex";
+}
+
+function closePreview() {
+    document.getElementById("previewModal").style.display = "none";
 }
 </script>
 

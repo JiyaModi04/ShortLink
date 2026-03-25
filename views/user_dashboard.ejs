@@ -176,7 +176,7 @@ h2 {
 
         <div class="input-group">
             <label>Expiry Date</label>
-            <input type="date" id="expiry_date">
+            <input type="date" id="expiry_date" onclick="past_date_disable()">
         </div>
 
         <button class="btn" onclick="generateLink()">Generate Short Link</button>
@@ -256,6 +256,15 @@ function showResult(content){
     resultContent.innerHTML = content;
     box.style.display = "block";
 }
+
+function past_date_disable(){
+    const today = new Date().toISOString().split("T")[0];
+    const input = document.getElementById("expiry_date");
+
+    input.min = today;
+    input.value = today;
+}
+
 
 </script>
 
