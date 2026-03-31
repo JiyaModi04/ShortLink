@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 const {nanoid} = require('nanoid');
 const qrcode = require('qrcode');
 const Jimp = require('jimp').default || require('jimp');
-const QRCodeStyling = require("qr-code-styling-node");
 
 const getregisteruser = (req, res, next) => {
     try {
@@ -365,8 +364,6 @@ const generate_qr_code = async (req, res) => {
     });
 
     const qrImage = await Jimp.read(buffer);
-
-    qrImage.sepia();
 
     const logoPath = req.file ? req.file.path : null;
 
