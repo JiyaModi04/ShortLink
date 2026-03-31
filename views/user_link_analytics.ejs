@@ -2,82 +2,205 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Link Analytics</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shortly — Link Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-body {
-    background: #f4f6f9;
-    font-family: Arial;
-    padding: 20px;
+/* --- RESET & THEME --- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --ink:       #111010;
+    --ink-mute:  #8a8585;
+    --border:    #e5e7eb;
+    --field-bg:  #f9fafb;
+    --rp-bg:     #f4f6f9; /* Soft grey background */
+    --accent-blue: #2563eb;
+    --accent-light: #eff6ff;
+}
+
+html, body { 
+    height: 100%; 
+    font-family: 'Instrument Sans', sans-serif; 
+    color: var(--ink); 
+    background: var(--rp-bg);
+    line-height: 1.6;
 }
 
 .container {
-    max-width: 1000px;
-    margin: auto;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
+/* --- HEADER --- */
 .header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    align-items: center;
+    margin-bottom: 24px;
 }
 
 .logo {
-    font-size: 28px;
-    font-weight: bold;
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 900;
 }
 
-.logo span {
-    color: #2563eb;
-}
+.logo span { color: var(--accent-blue); }
 
 .back-btn {
-    padding: 6px 12px;
-    background: black;
-    color: white;
-    border: none;
-    border-radius: 6px;
+    padding: 8px 16px;
+    background: transparent;
+    color: var(--ink-mute);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
+    transition: 0.2s;
 }
 
+.back-btn:hover {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+    background: #fff;
+    transform: translateX(-3px);
+}
+
+/* --- CARDS --- */
 .card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     margin-bottom: 20px;
-    border: 1px solid #e5e7eb;
 }
 
-.stats {
+h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
     display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+h2::before {
+    content: '';
+    width: 4px;
+    height: 18px;
+    background: var(--accent-blue);
+    border-radius: 10px;
+}
+
+/* --- LINK INFO --- */
+.link-info-grid {
+    display: grid;
     gap: 15px;
 }
 
-.stat {
-    flex: 1;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    text-align: center;
-    border: 1px solid #e5e7eb;
+.info-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--ink-mute);
+    display: block;
+    margin-bottom: 4px;
 }
 
-.stat h2 {
-    color: #2563eb;
+.info-value {
+    color: var(--ink);
+    font-weight: 600;
+    word-break: break-all;
+    font-size: 15px;
+}
+
+.short-url-style {
+    color: var(--accent-blue);
+    text-decoration: none;
+}
+
+/* --- STATS SECTION --- */
+.stat-box {
+    background: var(--accent-blue);
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
+}
+
+.stat-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.stat-box p {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    opacity: 0.8;
+}
+
+/* --- TABLE STYLING --- */
+.table-container {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    background: white;
 }
 
 thead {
-    background: #2563eb;
-    color: white;
+    background: var(--field-bg);
+    border-bottom: 2px solid var(--border);
 }
 
-th, td {
-    padding: 10px;
+thead th {
+    padding: 14px;
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--ink-mute);
+    font-weight: 700;
+}
+
+tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+}
+
+tbody tr:hover {
+    background: var(--accent-light);
+}
+
+td {
+    padding: 14px;
+    font-size: 14px;
+}
+
+.badge-device {
+    padding: 4px 10px;
+    background: #f1f5f9;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.badge-browser {
+    color: var(--accent-blue);
+    font-weight: 700;
 }
 
 </style>
@@ -89,47 +212,63 @@ th, td {
 
     <div class="header">
         <div class="logo">Short<span>ly</span></div>
-        <button class="back-btn" onclick="history.back()">← Back</button>
+        <button class="back-btn" onclick="history.back()">← Back to Links</button>
     </div>
 
     <div class="card">
-        <h2>Link Info</h2>
-        <p><strong>Short URL:</strong> <%= link.short_url %></p>
-        <p><strong>Original URL:</strong> <%= link.original_url %></p>
+        <h2>Telemetry Insights</h2>
+        <div class="link-info-grid">
+            <div class="info-row">
+                <span class="info-label">Active Shortly Link</span>
+                <span class="info-value"><a href="<%= link.short_url %>" class="short-url-style" target="_blank"><%= link.short_url %></a></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Original Destination</span>
+                <span class="info-value"><%= link.original_url %></span>
+            </div>
+        </div>
     </div>
 
-    <div class="stats">
-        <div class="stat">
-            <h2><%= link.count %></h2>
-            <p>Total Clicks</p>
+    <div class="card" style="padding: 0; background: transparent; box-shadow: none; border: none;">
+        <div class="stat-box">
+            <h3><%= link.count %></h3>
+            <p>Total Unique Clicks</p>
         </div>
     </div>
 
     <div class="card">
-        <h2>Visit Details</h2>
+        <h2>Detailed Visit Log</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Origin IP</th>
+                        <th>Platform</th>
+                        <th>Browser Agent</th>
+                        <th>Timestamp (UTC)</th>
+                    </tr>
+                </thead>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>IP</th>
-                    <th>Device</th>
-                    <th>Browser</th>
-                    <th>Time</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <% analytics.forEach(a => { %>
-                <tr>
-                    <td><%= a.ip %></td>
-                    <td><%= a.device %></td>
-                    <td><%= a.browser %></td>
-                    <td><%= a.accessed_at %></td>
-                </tr>
-                <% }) %>
-            </tbody>
-        </table>
-
+                <tbody>
+                    <% if (analytics.length > 0) { %>
+                        <% analytics.forEach(a => { %>
+                        <tr>
+                            <td style="font-family: monospace; font-weight: 600;"><%= a.ip %></td>
+                            <td><span class="badge-device"><%= a.device %></span></td>
+                            <td><span class="badge-browser"><%= a.browser %></span></td>
+                            <td style="color: var(--ink-mute); font-size: 13px;"><%= a.accessed_at %></td>
+                        </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 40px; color: var(--ink-mute); font-style: italic;">
+                                No click data recorded yet for this link.
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </div>

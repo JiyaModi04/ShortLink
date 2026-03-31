@@ -2,110 +2,260 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Link Analytics</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shortly Admin — Link Telemetry</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-body {
-    background: #f4f6f9;
-    font-family: Arial;
-    padding: 20px;
+/* --- RESET & THEME --- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --ink:       #111010;
+    --ink-mute:  #8a8585;
+    --border:    #e5e7eb;
+    --field-bg:  #f9fafb;
+    --rp-bg:     #f4f6f9; /* Soft grey background */
+    --accent-blue: #2563eb;
+    --accent-light: #eff6ff;
+}
+
+html, body { 
+    height: 100%; 
+    font-family: 'Instrument Sans', sans-serif; 
+    color: var(--ink); 
+    background: var(--rp-bg);
+    line-height: 1.6;
 }
 
 .dashboard {
-    max-width: 1200px;
-    margin: auto;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
+/* --- HEADER --- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 900;
+}
+
+.logo span { color: var(--accent-blue); }
+
+.back-btn {
+    padding: 8px 16px;
+    background: transparent;
+    color: var(--ink-mute);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.back-btn:hover {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+    background: #fff;
+    transform: translateX(-3px);
+}
+
+/* --- CARDS --- */
 .card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     margin-bottom: 20px;
 }
 
 h2 {
-    margin-bottom: 10px;
-}
-
-/* Stats cards */
-.stats {
-    display: flex;
-    gap: 20px;
+    font-size: 20px;
+    font-weight: 600;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.stat-box {
-    flex: 1;
-    background: #2563eb;
-    color: white;
-    padding: 20px;
+h2::before {
+    content: '';
+    width: 4px;
+    height: 18px;
+    background: var(--accent-blue);
     border-radius: 10px;
-    text-align: center;
 }
 
-/* Table */
+/* --- INFO SECTION --- */
+.link-meta {
+    font-size: 14px;
+}
+
+.link-meta p { margin-bottom: 12px; }
+
+.link-meta strong {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--ink-mute);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.path-text {
+    word-break: break-all;
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 15px;
+}
+
+/* --- STATS BOX --- */
+.stat-box {
+    background: var(--accent-blue);
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
+}
+
+.stat-box h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.stat-box h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    opacity: 0.8;
+}
+
+/* --- TABLE --- */
+.table-container {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
+    background: white;
 }
 
 thead {
-    background: #2563eb;
-    color: white;
+    background: var(--field-bg);
+    border-bottom: 2px solid var(--border);
 }
 
-td, th {
-    padding: 10px;
+th {
+    padding: 14px;
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--ink-mute);
+    font-weight: 700;
+}
+
+td {
+    padding: 14px;
+    font-size: 14px;
+    color: var(--ink);
+    border-bottom: 1px solid #f1f5f9;
 }
 
 tbody tr:hover {
-    background: #eef2ff;
+    background: var(--accent-light);
 }
-</style>
 
+.badge {
+    padding: 4px 10px;
+    background: #f1f5f9;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.browser-text {
+    color: var(--accent-blue);
+    font-weight: 700;
+}
+
+</style>
 </head>
 
 <body>
 
 <div class="dashboard">
 
-    <div class="card">
-        <h2>Analytics for: <%= link.short_code %></h2>
-        <p><strong>Original URL:</strong> <%= link.original_url %></p>
-        <p><strong>Short URL:</strong> <%= link.short_url %></p>
+    <div class="header">
+        <div class="logo">Short<span>ly</span></div>
+        <button class="back-btn" onclick="history.back()">← Back to Overview</button>
     </div>
 
-    <div class="stats">
+    <div class="card">
+        <h2>Analytics for: <span style="color: var(--accent-blue); font-family: monospace;"><%= link.short_code %></span></h2>
+        <div class="link-meta">
+            <p><strong>Original Destination</strong> <span class="path-text"><%= link.original_url %></span></p>
+            <p><strong>Active Shortly URL</strong> <span class="path-text" style="color: var(--accent-blue);"><%= link.short_url %></span></p>
+        </div>
+    </div>
+
+    <div class="card" style="padding: 0; background: transparent; box-shadow: none; border: none;">
         <div class="stat-box">
-            <h3>Total Clicks</h3>
+            <h3>Total Unique Engagements</h3>
             <h1><%= link.count %></h1>
         </div>
     </div>
 
     <div class="card">
-        <h2>All Click Logs</h2>
+        <h2>Detailed Visit Telemetry</h2>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>IP</th>
-                    <th>Device</th>
-                    <th>Browser</th>
-                    <th>Time</th>
-                </tr>
-            </thead>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Origin IP</th>
+                        <th>Platform</th>
+                        <th>User Agent</th>
+                        <th>Timestamp (UTC)</th>
+                    </tr>
+                </thead>
 
-            <tbody>
-                <% analytics.forEach(a => { %>
-                <tr>
-                    <td><%= a.ip %></td>
-                    <td><%= a.device %></td>
-                    <td><%= a.browser %></td>
-                    <td><%= a.accessed_at %></td>
-                </tr>
-                <% }) %>
-            </tbody>
-        </table>
+                <tbody>
+                    <% if (analytics.length > 0) { %>
+                        <% analytics.forEach(a => { %>
+                        <tr>
+                            <td style="font-family: monospace; font-weight: 600;"><%= a.ip %></td>
+                            <td><span class="badge"><%= a.device %></span></td>
+                            <td><span class="browser-text"><%= a.browser %></span></td>
+                            <td style="color: var(--ink-mute); font-size: 13px;"><%= a.accessed_at %></td>
+                        </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 50px; color: var(--ink-mute); font-style: italic;">
+                                No engagement data detected for this link yet.
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </div>

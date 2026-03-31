@@ -3,195 +3,286 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shortly User Links</title>
+<title>Shortly — My Links</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
+/* --- RESET & THEME --- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+:root {
+    --ink:       #111010;
+    --ink-mute:  #8a8585;
+    --border:    #e5e7eb;
+    --field-bg:  #f9fafb;
+    --rp-bg:     #f4f6f9; /* Soft grey background */
+    --accent-blue: #2563eb;
+    --accent-light: #eff6ff;
 }
 
-body {
-    background: #f4f6f9;
-    padding: 20px;
+html, body { 
+    height: 100%; 
+    font-family: 'Instrument Sans', sans-serif; 
+    color: var(--ink); 
+    background: var(--rp-bg);
 }
 
 .dashboard {
-    max-width: 1100px;
-    margin: auto;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
+/* --- HEADER --- */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .logo {
-    font-size: 28px;
-    font-weight: bold;
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 900;
 }
 
-.logo span {
-    color:#2563eb;
-}
+.logo span { color: var(--accent-blue); }
 
 .back-btn {
-    padding: 8px 14px;
-    background: #111827;
-    color: white;
-    border: none;
-    border-radius: 6px;
+    padding: 10px 18px;
+    background: transparent;
+    color: var(--ink-mute);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-weight: 600;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 .back-btn:hover {
-    background: black;
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+    background: #fff;
+    transform: translateX(-3px);
 }
 
+/* --- MAIN CARD --- */
 .card {
     background: #ffffff;
-    padding: 25px;
-    border-radius: 10px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
 }
 
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    margin-bottom: 25px;
+}
+
+/* --- TABLE STYLING --- */
 .table-container {
     overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid var(--border);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    background: white;
 }
 
 thead {
-    background: #2563eb;
-    color: white;
+    background: var(--field-bg);
+    border-bottom: 2px solid var(--border);
 }
 
 thead th {
-    padding: 12px;
+    padding: 16px;
     text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--ink-mute);
+    font-weight: 800;
 }
 
 tbody tr {
-    border-bottom: 1px solid #e5e7eb;
-    transition: 0.2s;
+    border-bottom: 1px solid #f1f5f9;
 }
 
 tbody tr:hover {
-    background: #eef2ff;
+    background: var(--accent-light);
 }
 
 td {
-    padding: 12px;
+    padding: 16px;
     font-size: 14px;
+    vertical-align: middle;
 }
 
+/* --- BADGES & LINKS --- */
 .link-badge {
-    background: #e0f2fe;
-    padding: 6px 10px;
-    border-radius: 20px;
+    background: var(--accent-light);
+    padding: 6px 12px;
+    border-radius: 6px;
     display: inline-block;
 }
 
 .link-badge a {
     text-decoration: none;
-    color: #0369a1;
+    color: var(--accent-blue);
+    font-weight: 700;
 }
 
-.qr-box img {
+.short-code {
+    font-family: monospace;
+    font-weight: 700;
+    color: var(--ink);
+    background: #eee;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* --- QR BOX --- */
+.qr-box {
+    text-align: center;
+}
+
+.qr-image {
+    border: 1px solid var(--border);
+    padding: 4px;
+    background: white;
     border-radius: 6px;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
-.qr-box a {
-    font-size: 13px;
-    margin-right: 8px;
-    color: #2563eb;
+.qr-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.qr-link {
+    font-size: 12px;
+    color: var(--accent-blue);
     text-decoration: none;
+    font-weight: 700;
 }
 
+.qr-link:hover { text-decoration: underline; }
+
+/* --- BUTTONS --- */
 .action-btn {
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: 8px 14px;
+    border-radius: 6px;
     border: none;
-    background: #2563eb;
+    background: var(--accent-blue);
     color: white;
     cursor: pointer;
     font-size: 12px;
+    font-weight: 700;
+    transition: 0.2s;
 }
 
 .action-btn:hover {
     background: #1d4ed8;
 }
 
-.no-links {
-    text-align: center;
-    color: #666;
-    padding: 20px;
+.btn-scan {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--ink-mute);
 }
 
-#scanResult {
-    margin-top: 20px;
-    text-align: center;
-    font-weight: bold;
+.btn-scan:hover {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
 }
 
+/* --- SCANNER OVERLAY --- */
 .scanner-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 10;
+    z-index: 100;
     flex-direction: column;
 }
 
 .scanner-box {
     width: 260px;
     height: 260px;
-    border: 3px solid #00ffcc;
+    border: 4px solid var(--accent-blue);
     position: relative;
     overflow: hidden;
-    border-radius: 8px;
-}
-
-.scanner-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    z-index: 1;
+    border-radius: 12px;
+    background: #000;
 }
 
 .scan-line {
     position: absolute;
     width: 100%;
-    height: 3px;
-    background: red;
-    animation: scanmove 2s linear infinite;
-    z-index: 2;
+    height: 4px;
+    background: var(--accent-blue);
+    box-shadow: 0 0 10px var(--accent-blue);
+    animation: scanmove 2s ease-in-out infinite;
 }
 
 @keyframes scanmove {
-    0% { top: 0; }
-    100% { top: 100%; }
+    0%, 100% { top: 5%; }
+    50% { top: 95%; }
 }
 
-.scanner-overlay p {
-    color: white;
-    margin-top: 10px;
+/* --- PREVIEW MODAL --- */
+.preview-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+}
+
+.preview-content {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    position: relative;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.preview-content img {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--ink-mute);
+}
+
+.scan-msg {
+    margin-top: 20px;
+    padding: 15px;
+    background: var(--accent-light);
+    border-radius: 8px;
+    color: var(--accent-blue);
+    font-weight: 700;
+    border: 1px solid var(--accent-blue);
 }
 
 </style>
@@ -203,87 +294,98 @@ td {
 
     <div class="header">
         <div class="logo">Short<span>ly</span></div>
-        <button class="back-btn" onclick="history.back()">← Back</button>
+        <button class="back-btn" onclick="history.back()">← Back to Dashboard</button>
     </div>
 
     <div class="card">
-        <h2 style="margin-bottom:15px;">All Short Links</h2>
+        <h2>Active Short Links</h2>
 
         <% if (links.length > 0) { %>
-
         <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Original URL</th>
-                    <th>Short Code</th>
-                    <th>Expiry</th>
-                    <th>Short Link</th>
-                    <th>QR</th>
-                    <th>Clicks</th>
-                    <th>Analytics</th>
-                </tr>
-            </thead>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Original Destination</th>
+                        <th>Code</th>
+                        <th>Expiry</th>
+                        <th>Short Link</th>
+                        <th style="text-align:center;">QR Control</th>
+                        <th>Clicks</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
 
-            <tbody>
-                <% links.forEach(link => { %>
-                <tr>
-                    <td><%= link.id %></td>
+                <tbody>
+                    <% links.forEach(link => { %>
+                    <tr>
+                        <td style="color: var(--ink-mute); font-weight: 600;">#<%= link.id %></td>
 
-                    <td style="max-width:200px; word-break:break-all;">
-                        <%= link.original_url %>
-                    </td>
+                        <td style="max-width:220px; word-break:break-all; font-size: 13px; color: var(--ink-mute);">
+                            <%= link.original_url %>
+                        </td>
 
-                    <td><%= link.short_code %></td>
-                    <td><%= link.expiry_date %></td>
+                        <td><span class="short-code"><%= link.short_code %></span></td>
+                        
+                        <td style="font-size: 12px; font-weight: 600;"><%= link.expiry_date %></td>
 
-                    <td>
-                        <span class="link-badge">
-                            <a href="<%= link.short_url %>" target="_blank">
-                                <%= link.short_url %>
-                            </a>
-                        </span>
-                    </td>
-                    <td class="qr-box">
-                        <img src="<%= link.qrcode_path %>" width="80" class="qr-image">
-                        <br>
-                        <% if(link.qrcode_path) { %>
-                            <a href="<%= link.qrcode_path %>">Preview</a>
-                            <a href="<%= link.qrcode_path %>" download>Download</a>
-                            <button class="action-btn" onclick="scanQR(this)">Scan</button>
-                        <% } else { %>
-                            <p style="color: blue;">NO QR</p>
-                        <%   }   %>
-                    </td>
+                        <td>
+                            <span class="link-badge">
+                                <a href="<%= link.short_url %>" target="_blank">
+                                    <%= link.short_url %>
+                                </a>
+                            </span>
+                        </td>
 
-                    <td><strong><%= link.count %></strong></td>
-                    <td>
-                        <button class="action-btn" data-id="<%= link.id %>" onclick="viewAnalytics(this)">
-                            View Analytics
-                        </button>
-                    </td>
-                </tr>
-                <% }) %>
-            </tbody>
-        </table>
+                        <td class="qr-box">
+                            <% if(link.qrcode_path) { %>
+                                <img src="<%= link.qrcode_path %>" width="60" class="qr-image">
+                                <div class="qr-actions">
+                                    <a href="#" class="qr-link" onclick="openPreview('<%= link.qrcode_path %>')">View</a>
+                                    <a href="<%= link.qrcode_path %>" class="qr-link" download>Save</a>
+                                    <button class="action-btn btn-scan" onclick="scanQR(this)">Scan</button>
+                                </div>
+                            <% } else { %>
+                                <span style="font-size: 11px; color: #ef4444; font-weight: 700;">NO QR</span>
+                            <% } %>
+                        </td>
+
+                        <td><strong style="font-size: 15px;"><%= link.count %></strong></td>
+
+                        <td>
+                            <button class="action-btn" data-id="<%= link.id %>" onclick="viewAnalytics(this)">
+                                Analytics
+                            </button>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
         </div>
-
         <% } else { %>
-            <div class="no-links">No links found.</div>
+            <div style="text-align:center; padding: 60px; color: var(--ink-mute);">
+                <p>No active links found. Start by creating one!</p>
+            </div>
         <% } %>
 
         <div id="scanResult"></div>
     </div>
-
 </div>
 
 <div id="scannerOverlay" class="scanner-overlay">
     <div class="scanner-box">
-        <img id="scannerImage" src="">
+        <img id="scannerImage" src="" style="width:100%; height:100%; object-fit:contain;">
         <div class="scan-line"></div>
     </div>
-    <p>Scanning QR Code...</p>
+    <p style="color: white; margin-top: 20px; font-weight: 700;">ANALYZING QR CODE...</p>
+</div>
+
+<div id="previewModal" class="preview-modal">
+    <div class="preview-content">
+        <span class="close-btn" onclick="closePreview()">×</span>
+        <h3 style="margin-bottom: 15px; font-weight: 700;">QR Preview</h3>
+        <img id="previewImg" src="">
+    </div>
 </div>
 
 <script type="module">
@@ -295,13 +397,12 @@ window.QrScanner = QrScanner;
 async function scanQR(element) {
     const overlay = document.getElementById("scannerOverlay");
     const scannerImg = document.getElementById("scannerImage");
+    const resultDiv = document.getElementById("scanResult");
 
     try {
         overlay.style.display = "flex";
-
         const row = element.closest("tr");
         const img = row.querySelector(".qr-image");
-
         scannerImg.src = img.src;
 
         const image = new Image();
@@ -312,29 +413,41 @@ async function scanQR(element) {
 
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
-
         canvas.width = image.width;
         canvas.height = image.height;
         ctx.drawImage(image, 0, 0);
 
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await new Promise(resolve => setTimeout(resolve, 1200));
 
         const result = await QrScanner.scanImage(canvas);
-
         overlay.style.display = "none";
 
-        document.getElementById("scanResult").innerHTML =
-            `<a href="${result}" target="_blank">${result}</a>`;
+        resultDiv.className = "scan-msg";
+        resultDiv.innerHTML = `Decoded: <a href="${result}" target="_blank" style="color:var(--accent-blue);">${result}</a>`;
 
     } catch (err) {
         overlay.style.display = "none";
-        document.getElementById("scanResult").innerText = "QR Scan Failed";
+        resultDiv.className = "scan-msg";
+        resultDiv.style.background = "#fee2e2";
+        resultDiv.style.color = "#b91c1c";
+        resultDiv.innerText = "Error: Invalid or unreadable QR code.";
     }
 }
 
 function viewAnalytics(btn){
     const id = btn.getAttribute("data-id");
     window.location.href = `/user/link/${id}`;
+}
+
+function openPreview(src) {
+    const modal = document.getElementById("previewModal");
+    const img = document.getElementById("previewImg");
+    img.src = src;
+    modal.style.display = "flex";
+}
+
+function closePreview() {
+    document.getElementById("previewModal").style.display = "none";
 }
 </script>
 

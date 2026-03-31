@@ -3,145 +3,216 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shortly - Dashboard</title>
-
+<title>Shortly — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* --- RESET & THEME --- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+:root {
+  --ink:       #111010;
+  --ink-mute:  #8a8585;
+  --cream:     #faf7f2;
+  --red:       #c94a2a;
+  --border:    #e5e7eb;
+  --field-bg:  #f9fafb;
+  --rp-bg:     #f4f6f9; /* Soft grey background matching your theme */
+  --accent-blue: #2563eb;
+}
+
+html, body { 
+  height: 100%; 
+  font-family: 'Instrument Sans', sans-serif; 
+  color: var(--ink); 
+  background: var(--rp-bg); 
 }
 
 body {
-    background-color: #f4f6f9;
-    padding: 20px;
+  padding: 40px 20px;
 }
 
-.dashboard {
-    max-width: 900px;
-    margin: auto;
+/* --- CENTRAL CONTAINER --- */
+.dashboard-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
+/* --- HEADER --- */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
 }
 
 .logo {
-    font-size: 28px;
-    font-weight: bold;
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--ink);
 }
-
-.logo span {
-    color:#2563eb ;
-}
+.logo span { color: var(--accent-blue); }
 
 .logout-btn {
-    padding: 8px 16px;
-    background: #ef4444;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--ink-mute);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .logout-btn:hover {
-    background: #dc2626;
+  border-color: var(--red);
+  color: var(--red);
+  background: #fffafa;
 }
 
+/* --- CARD --- */
 .card {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    margin-bottom: 20px;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
 }
 
 h2 {
-    margin-bottom: 20px;
-    font-weight: 500;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 24px;
 }
 
-.input-group {
-    margin-bottom: 18px;
-}
+/* --- FORM GROUPS --- */
+.input-group { margin-bottom: 18px; text-align: left; }
 
 .input-group label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 6px;
-    color: #555;
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #333;
 }
 
-.input-group input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #e5e7eb;
+input, select {
+  width: 100%;
+  padding: 12px;
+  background: var(--field-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  transition: all 0.2s ease;
 }
 
-.input-group input:focus {
-    outline: none;
-    border-color: #2563eb;
+input:focus {
+  border-color: var(--accent-blue);
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
 }
 
+/* --- RADIO GROUP --- */
 .radio-group {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.radio-group label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  background: var(--field-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.radio-group input { display: none; }
+
+.radio-group label:has(input:checked) {
+  border-color: var(--accent-blue);
+  background: rgba(37, 99, 235, 0.05);
+  color: var(--accent-blue);
+}
+
+/* --- BUTTONS --- */
+.btn-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
 }
 
 .btn {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    background-color: #2563eb;
-    color: white;
-    cursor: pointer;
-    margin-top: 10px;
+  padding: 12px;
+  background: var(--accent-blue);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-.btn:hover {
-    background-color: #1d4ed8;
+.btn:hover { background: #1d4ed8; transform: translateY(-1px); }
+
+.btn-secondary { background: var(--ink); }
+.btn-secondary:hover { background: #000; }
+
+.btn-outline {
+  width: 100%;
+  background: transparent;
+  color: var(--accent-blue);
+  border: 1px solid var(--accent-blue);
 }
 
-.btn-secondary {
-    background-color: #111827;
+.btn-outline:hover {
+  background: rgba(37, 99, 235, 0.05);
 }
 
-.btn-secondary:hover {
-    background-color: #000;
-}
-
+/* --- RESULT BOX --- */
 .result-box {
-    display: none;
-    padding: 15px;
-    background-color: #e0f2fe;
-    border-radius: 8px;
-    margin-top: 15px;
-    word-break: break-all;
+  display: none;
+  padding: 16px;
+  background: #f0f9ff;
+  border-radius: 8px;
+  margin-top: 20px;
+  word-break: break-all;
+  border: 1px solid #bae6fd;
 }
 
-.result-title {
-    font-weight: bold;
-    margin-bottom: 8px;
+.result-title { 
+    font-weight: 800; 
+    color: #0369a1; 
+    font-size: 11px; 
+    text-transform: uppercase; 
+    margin-bottom: 6px;
 }
+
+#resultContent { font-size: 14px; color: #0c4a6e; }
 
 </style>
 </head>
-
 <body>
 
-<div class="dashboard">
+<div class="dashboard-container">
 
     <div class="header">
         <div class="logo">Short<span>ly</span></div>
-
         <form action="/logout" method="post">
             <button class="logout-btn">Logout</button>
         </form>
@@ -151,53 +222,54 @@ h2 {
         <h2>Create Short Link</h2>
 
         <div class="input-group">
-            <label>Enter Original URL</label>
-            <input type="url" id="original_url" placeholder="https://example.com">
+            <label>Original URL</label>
+            <input type="url" id="original_url" placeholder="https://example.com/very-long-link">
         </div>
 
         <div class="input-group">
-            <label>Short Code Option</label>
+            <label>Link Customization</label>
             <div class="radio-group">
                 <label>
                     <input type="radio" name="short_code_option" value="auto" checked onclick="toggleCustom(false)">
-                    Auto Generate
+                    Auto
                 </label>
                 <label>
                     <input type="radio" name="short_code_option" value="custom" onclick="toggleCustom(true)">
-                    Custom Code
+                    Custom
                 </label>
             </div>
         </div>
 
         <div class="input-group" id="customCodeGroup" style="display:none;">
-            <label>Custom Code</label>
-            <input type="text" id="custom_code">
+            <label>Custom Alias</label>
+            <input type="text" id="custom_code" placeholder="e.g. my-link">
         </div>
 
         <div class="input-group">
             <label>Expiry Date</label>
-            <input type="date" id="expiry_date">
+            <input type="date" id="expiry_date" onclick="past_date_disable()">
         </div>
 
-        <button class="btn" onclick="generateLink()">Generate Short Link</button>
-        <button class="btn btn-secondary" onclick="generateQR()">Generate QR Code</button>
+        <div class="btn-row">
+            <button class="btn" onclick="generateLink()">Shorten</button>
+            <button class="btn btn-secondary" onclick="generateQR()">QR Code</button>
+        </div>
 
         <div id="resultBox" class="result-box">
-            <div class="result-title">Generated Output</div>
+            <div class="result-title">Success</div>
             <div id="resultContent"></div>
         </div>
     </div>
 
-    <div class="card">
+    <div class="card" style="padding: 16px;">
         <form action="/all_links" method="post">
-            <button class="btn">View All Short Links</button>
+            <button class="btn btn-outline">View Analytics & All Links</button>
         </form>
     </div>
 
 </div>
 
 <script>
-
 function toggleCustom(show){
     document.getElementById("customCodeGroup").style.display = show ? "block" : "none";
 }
@@ -213,18 +285,14 @@ function getdata(){
 
 async function generateLink(){
     const data = getdata();
-
     try{
         const res = await fetch("/user/dashboard/shortlink",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
             body:JSON.stringify(data)
         });
-
         const result = await res.text();
-
         showResult(result);
-
     }catch(err){
         console.error(err);
     }
@@ -232,18 +300,14 @@ async function generateLink(){
 
 async function generateQR(){
     const data = getdata();
-
     try{
         const res = await fetch("/user/dashboard/qrcode",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
             body:JSON.stringify(data)
         });
-
         const result = await res.text();
-
         showResult(result);
-
     }catch(err){
         console.error(err);
     }
@@ -252,11 +316,15 @@ async function generateQR(){
 function showResult(content){
     const box = document.getElementById("resultBox");
     const resultContent = document.getElementById("resultContent");
-
     resultContent.innerHTML = content;
     box.style.display = "block";
 }
 
+function past_date_disable(){
+    const today = new Date().toISOString().split("T")[0];
+    const input = document.getElementById("expiry_date");
+    input.min = today;
+}
 </script>
 
 </body>

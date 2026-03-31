@@ -3,182 +3,220 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shortly - Register</title>
-
+<title>Shortly — Create Account</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* --- RESET & THEME --- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+:root {
+  --ink:       #111010;
+  --ink-mute:  #8a8585;
+  --cream:     #faf7f2;
+  --red:       #c94a2a;
+  --border:    #e5e7eb;
+  --field-bg:  #f9fafb;
+  --rp-bg:     #f4f6f9; /* Soft grey background from screenshot */
+  --accent-blue: #2563eb;
+}
+
+html, body { 
+  height: 100%; 
+  font-family: 'Instrument Sans', sans-serif; 
+  color: var(--ink); 
+  background: var(--rp-bg); /* Background matches your screenshot */
 }
 
 body {
-    background: linear-gradient(135deg, #f4f6f9, #eef2f7, #e6ecf5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
 }
 
+/* --- CENTRAL CONTAINER --- */
 .container {
-    width: 100%;
-    max-width: 450px;
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 
-        0px 4px 6px rgba(0,0,0,0.05),
-        0px 10px 20px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 460px;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  text-align: center;
 }
 
+/* --- LOGO & TITLES --- */
 .logo {
-    text-align: center;
-    font-size: 38px;
-    font-weight: bolder;
-    margin-bottom: 23px;
+  font-family: 'Playfair Display', serif;
+  font-size: 38px;
+  font-weight: 900;
+  margin-bottom: 24px;
+  color: var(--ink);
 }
-
-.logo span {
-    color: #1b4aae;
-}
+.logo span { color: var(--accent-blue); } /* The 'ly' in blue */
 
 h2 {
-    text-align: center;
-    margin-bottom: 7px;
-    font-weight: 500;
-    font-size: 22px;
-    color: black;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--ink);
 }
 
 h4 {
-    text-align: center;
-    margin-bottom: 35px;
-    font-weight: 500;
-    font-size: 16px;
-    color: black;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink-mute);
+  margin-bottom: 32px;
 }
 
-input{
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
-    background-color : #f9fafb;
+/* --- FORM STYLING --- */
+form { text-align: left; }
+
+.field { margin-bottom: 20px; }
+
+.field label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #555;
 }
 
-select{
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
-    
+input, select {
+  width: 100%;
+  padding: 12px;
+  background: var(--field-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
 }
 
-.input-group {
-    margin-bottom: 25px;
+input:focus, select:focus {
+  border-color: var(--accent-blue);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  transform: translateY(-1px);
 }
 
-.input-group label {
-    display: block;
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #555;
+/* --- STRENGTH METER --- */
+.strength-track { display: flex; gap: 4px; margin-top: 8px; }
+.strength-seg { flex: 1; height: 4px; border-radius: 2px; background: #e5e7eb; transition: 0.3s; }
+
+/* --- BUTTON --- */
+.btn-create {
+  width: 100%;
+  padding: 14px;
+  background: var(--accent-blue);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
 }
 
-.input-group input,
-.input-group select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #e5e7eb;
-    font-size: 14px;
-    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
-    color: #555;
-    
-}
-
-.input-group input:focus,
-.input-group select:focus {
-    outline: none;
-    border-color: #2563eb;
-    transform: translateY(-2px);
-    transition: all 0.2s ease;
-    color: black;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 17px;
-    cursor: pointer;
-    margin-top: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-button:hover {
-    background: #0f3499;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
-    transition: all 0.25s ease;
+.btn-create:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
 }
 
 .login-text {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 16px;
+  margin-top: 24px;
+  font-size: 14px;
+  color: var(--ink-mute);
 }
 
 .login-text a {
-    color: #2563eb;
-    text-decoration: none;
-    font-weight: 500;
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-weight: 600;
 }
+
+.login-text a:hover { text-decoration: underline; }
+
 </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="logo">Short<span>ly</span></div>
-    <h2>Create Account</h2>
-    <h4>Join Shortly and start managing links easily</h4>
+  <div class="logo">Short<span>ly</span></div>
+  <h2>Create Account</h2>
+  <h4>Join Shortly and start managing links easily</h4>
 
-    <form action="/" method="post">
-        <div class="input-group">
-            <label>Username</label>
-            <input type="text" name="username" required>
-        </div>
-
-        <div class="input-group">
-            <label>Email</label>
-            <input type="email" name="email" required>
-        </div>
-
-        <div class="input-group">
-            <label>Role</label>
-            <select name="role" style="background-color: #f9fafb;" required>
-                <option value="">Select role</option>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-            </select>
-        </div>
-
-        <div class="input-group">
-            <label>Password</label>
-            <input type="password" name="password" required minlength="6">
-        </div>
-
-        <div class="input-group">
-            <label>Confirm Password</label>
-            <input type="password" name="confirmpassword" required minlength="6">
-        </div>
-
-        <button type="submit">Create Account</button>
-    </form>
-
-    <div class="login-text">
-        Already registered? <a href="/login">Login here</a>
+  <form action="/" method="post" id="signupForm">
+    
+    <div class="field">
+      <label>Username</label>
+      <input type="text" name="username" placeholder="Enter username" required>
     </div>
+
+    <div class="field">
+      <label>Email</label>
+      <input type="email" name="email" placeholder="Enter your email" required>
+    </div>
+
+    <div class="field">
+      <label>Role</label>
+      <select name="role" required>
+        <option value="" disabled selected>Select role</option>
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <input type="password" name="password" id="password" placeholder="••••••••" required minlength="6">
+      <div class="strength-track">
+        <div class="strength-seg" id="s1"></div>
+        <div class="strength-seg" id="s2"></div>
+        <div class="strength-seg" id="s3"></div>
+        <div class="strength-seg" id="s4"></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Confirm Password</label>
+      <input type="password" name="confirmpassword" id="confirm" placeholder="••••••••" required minlength="6">
+    </div>
+
+    <button type="submit" class="btn-create">Create Account</button>
+  </form>
+
+  <p class="login-text">
+    Already registered? <a href="/login">Login here</a>
+  </p>
 </div>
+
+<script>
+  const pw = document.getElementById('password');
+  const segs = ['s1','s2','s3','s4'].map(id => document.getElementById(id));
+  
+  pw.addEventListener('input', () => {
+    const v = pw.value;
+    // Simple visual score based on length
+    let score = 0;
+    if (v.length > 0) score = 1;
+    if (v.length > 5) score = 2;
+    if (v.length > 8) score = 3;
+    if (v.length > 11) score = 4;
+    
+    segs.forEach((s, i) => {
+      // If length is good, use Shortly Red or Accent Blue
+      s.style.background = i < score ? '#c94a2a' : '#e5e7eb';
+    });
+  });
+</script>
 
 </body>
 </html>
