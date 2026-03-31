@@ -3,182 +3,391 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shortly - Register</title>
-
+<title>Shortly — Create Account</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+:root {
+  --ink:       #111010;
+  --ink-soft:  #3a3838;
+  --ink-mute:  #8a8585;
+  --paper:     #f5f0e8;
+  --cream:     #faf7f2;
+  --red:       #c94a2a;
+  --red-dark:  #a33a1e;
+  --border:    #d8d2c7;
+  --field-bg:  #ffffff;
+  --rp-bg:     #efe6d5;
+  --rp-card:   #fffef9;
+  --rp-warm:   #e2d4be;
 }
 
-body {
-    background: linear-gradient(135deg, #f4f6f9, #eef2f7, #e6ecf5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+html, body { height: 100%; font-family: 'Instrument Sans', sans-serif; color: var(--ink); }
+body { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+
+/* --- LEFT PANEL --- */
+.panel-left {
+  background: var(--ink); color: var(--cream);
+  display: flex; flex-direction: column;
+  padding: 52px 56px; position: relative; overflow: hidden;
 }
 
-.container {
-    width: 100%;
-    max-width: 450px;
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 
-        0px 4px 6px rgba(0,0,0,0.05),
-        0px 10px 20px rgba(0,0,0,0.08);
+/* Drifting Grid Animation */
+.panel-left::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
+  background-size: 18px 18px; pointer-events: none;
+  animation: gridDrift 60s linear infinite;
 }
 
-.logo {
-    text-align: center;
-    font-size: 38px;
-    font-weight: bolder;
-    margin-bottom: 23px;
+@keyframes gridDrift {
+  from { background-position: 0 0; }
+  to { background-position: 100px 100px; }
 }
 
-.logo span {
-    color: #1b4aae;
+.logo-lockup { 
+  display: flex; align-items: baseline; gap: 10px; margin-bottom: 72px; 
+  opacity: 0; transform: translateY(20px); animation: revealLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+}
+.logo-word { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; letter-spacing: -0.5px; color: #fff; }
+.logo-dot { 
+  width: 8px; height: 8px; border-radius: 50%; background: var(--red); margin-bottom: 4px; flex-shrink: 0; 
+  animation: pulseRed 3s infinite;
 }
 
-h2 {
-    text-align: center;
-    margin-bottom: 7px;
-    font-weight: 500;
-    font-size: 22px;
-    color: black;
+@keyframes pulseRed {
+  0%, 100% { box-shadow: 0 0 0px var(--red); }
+  50% { box-shadow: 0 0 12px var(--red); }
 }
 
-h4 {
-    text-align: center;
-    margin-bottom: 35px;
-    font-weight: 500;
-    font-size: 16px;
-    color: black;
+.panel-left h1 { 
+  font-family: 'Playfair Display', serif; font-size: clamp(34px,3.2vw,50px); font-weight: 700; line-height: 1.12; letter-spacing: -1px; color: #fff; margin-bottom: 22px; 
+  opacity: 0; transform: translateY(20px); animation: revealLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+}
+.panel-left h1 em { font-style: italic; color: var(--red); }
+
+.panel-left .sub { 
+  font-size: 15px; line-height: 1.65; color: rgba(250,247,242,0.5); max-width: 310px; margin-bottom: 56px; 
+  opacity: 0; transform: translateY(20px); animation: revealLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
 }
 
-input{
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
-    background-color : #f9fafb;
+.feat-list { list-style: none; display: flex; flex-direction: column; flex: 1; }
+.feat-list li { 
+  display: flex; align-items: flex-start; gap: 14px; padding: 18px 0; border-top: 1px solid rgba(255,255,255,0.08); 
+  opacity: 0; transform: translateY(20px); transition: all 0.3s ease;
 }
 
-select{
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
-    
+.feat-list li:nth-child(1) { animation: revealLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards; }
+.feat-list li:nth-child(2) { animation: revealLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards; }
+.feat-list li:nth-child(3) { animation: revealLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.6s forwards; }
+
+.feat-list li:hover {
+  background: rgba(255, 255, 255, 0.03);
+  padding-left: 12px;
+  border-top-color: rgba(255,255,255,0.2);
 }
 
-.input-group {
-    margin-bottom: 25px;
+@keyframes revealLeft {
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.input-group label {
-    display: block;
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #555;
+.feat-body strong { display: block; font-size: 14px; font-weight: 600; color: rgba(250,247,242,0.9); margin-bottom: 3px; }
+.feat-body span { font-size: 13px; color: rgba(250,247,242,0.4); line-height: 1.5; }
+
+/* --- RIGHT PANEL --- */
+.panel-right {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px; overflow: hidden;
+  background: var(--rp-bg);
 }
 
-.input-group input,
-.input-group select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #e5e7eb;
-    font-size: 14px;
-    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
-    color: #555;
-    
+.rp-gradient {
+  position: absolute; inset: -60px;
+  background:
+    radial-gradient(ellipse 70% 60% at 18% 12%, rgba(201,74,42,0.1) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 55% at 88% 90%, rgba(160,110,40,0.1) 0%, transparent 60%);
+  animation: gradDrift 12s ease-in-out infinite alternate;
+  pointer-events: none; z-index: 0;
 }
 
-.input-group input:focus,
-.input-group select:focus {
-    outline: none;
-    border-color: #2563eb;
-    transform: translateY(-2px);
-    transition: all 0.2s ease;
-    color: black;
+@keyframes gradDrift {
+  0%   { transform: translate(0,0) scale(1); }
+  100% { transform: translate(12px,-14px) scale(1.04); }
 }
 
-button {
-    width: 100%;
-    padding: 12px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 17px;
-    cursor: pointer;
-    margin-top: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+.rp-dots {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(150,110,55,0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none; z-index: 0; opacity: 0.55;
 }
 
-button:hover {
-    background: #0f3499;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
-    transition: all 0.25s ease;
+/* FORM CARD */
+.form-shell {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 420px;
+  background: var(--rp-card);
+  padding: 40px 38px 34px;
+  border-radius: 22px;
+  border: 1px solid rgba(201,74,42,0.16);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.75),
+    0 14px 44px rgba(17,16,16,0.11),
+    0 44px 88px rgba(17,16,16,0.07);
+  animation: cardReveal 0.7s cubic-bezier(0.22,1,0.36,1) both;
 }
 
-.login-text {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 16px;
+@keyframes cardReveal {
+  from { opacity: 0; transform: translateY(30px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.login-text a {
-    color: #2563eb;
-    text-decoration: none;
-    font-weight: 500;
+.form-shell::before {
+  content: ''; position: absolute;
+  top: 0; left: 12%; right: 12%; height: 2.5px;
+  background: linear-gradient(90deg, transparent, var(--red) 30%, rgba(178,128,46,0.9) 70%, transparent);
+  border-radius: 0 0 3px 3px;
+}
+
+.step-dots { display: flex; gap: 5px; margin-bottom: 26px; }
+.step-dot {
+  height: 3px; border-radius: 2px;
+  background: var(--rp-warm); flex: 1;
+  transition: all 0.3s;
+}
+.step-dot.on {
+  background: var(--red); flex: 2.2;
+  box-shadow: 0 0 8px rgba(201,74,42,0.35);
+}
+
+.card-eyebrow {
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--red); margin-bottom: 6px;
+  opacity: 0; animation: fadeSlide 0.5s 0.15s ease forwards;
+}
+
+.form-shell h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; font-weight: 700;
+  color: var(--ink); letter-spacing: -0.4px; margin-bottom: 6px;
+  opacity: 0; animation: fadeSlide 0.5s 0.25s ease forwards;
+}
+
+.form-desc {
+  font-size: 13.5px; color: var(--ink-mute);
+  margin-bottom: 26px; line-height: 1.55;
+  opacity: 0; animation: fadeSlide 0.5s 0.35s ease forwards;
+}
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.field-anim { opacity: 0; animation: fadeSlide 0.45s ease forwards; }
+.fa-1 { animation-delay: 0.42s; }
+.fa-2 { animation-delay: 0.52s; }
+.fa-3 { animation-delay: 0.62s; }
+.fa-4 { animation-delay: 0.72s; }
+
+.field { margin-bottom: 16px; position: relative; }
+.field label {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.09em;
+  color: var(--ink-mute); margin-bottom: 7px;
+}
+
+.input-wrap { position: relative; }
+.input-icon {
+  position: absolute; left: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-mute); pointer-events: none;
+  display: flex;
+}
+.input-icon svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+.field input {
+  width: 100%;
+  padding: 11px 13px 11px 38px;
+  background: var(--field-bg);
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px; color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.field input:focus {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3.5px rgba(201,74,42,0.11);
+}
+
+.role-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--ink-mute); display: block; margin-bottom: 8px; }
+.role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 16px; }
+.role-card input[type="radio"] { display: none; }
+.role-card label {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px;
+  background: var(--field-bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px; cursor: pointer;
+  transition: all 0.2s;
+}
+.role-card input:checked + label { border-color: var(--red); background: rgba(201,74,42,0.05); }
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.strength-track { display: flex; gap: 4px; margin-top: 8px; }
+.strength-seg { flex: 1; height: 3px; border-radius: 2px; background: var(--rp-warm); transition: 0.3s; }
+
+.btn-create {
+  width: 100%; padding: 13px 20px;
+  background: var(--ink); color: #fff;
+  border: none; border-radius: 10px;
+  font-weight: 600; cursor: pointer;
+  margin-top: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  transition: all 0.22s;
+  opacity: 0; animation: fadeSlide 0.45s 0.92s ease forwards;
+}
+.btn-create:hover { background: var(--red); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,74,42,0.28); }
+
+.signin-line {
+  text-align: center; margin-top: 22px; padding-top: 18px;
+  border-top: 1px solid var(--border);
+  font-size: 13px; color: var(--ink-mute);
+  opacity: 0; animation: fadeSlide 0.45s 1s ease forwards;
+}
+.signin-line a { color: var(--red); font-weight: 600; text-decoration: none; }
+
+@media (max-width: 900px) {
+  body { grid-template-columns: 1fr; }
+  .panel-left { display: none; }
 }
 </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="logo">Short<span>ly</span></div>
-    <h2>Create Account</h2>
-    <h4>Join Shortly and start managing links easily</h4>
+<aside class="panel-left">
+  <div class="logo-lockup">
+    <span class="logo-word">Shortly</span>
+    <span class="logo-dot"></span>
+  </div>
+  <h1>Shorten.<br><em>Share.</em><br>Track.</h1>
+  <p class="sub">Create short links, share them anywhere, and see who's clicking.</p>
+  <ul class="feat-list">
+    <li><div class="feat-body"><strong>Short Links</strong><span>Turn long URLs into clean, shareable links.</span></div></li>
+    <li><div class="feat-body"><strong>Click Analytics</strong><span>See clicks, locations, and devices in real time.</span></div></li>
+    <li><div class="feat-body"><strong>Full Control</strong><span>Set expiry dates, passwords, and custom short codes.</span></div></li>
+  </ul>
+</aside>
 
-    <form action="/" method="post">
-        <div class="input-group">
-            <label>Username</label>
-            <input type="text" name="username" required>
+<main class="panel-right">
+  <div class="rp-gradient"></div>
+  <div class="rp-dots"></div>
+
+  <div class="form-shell">
+    <div class="step-dots">
+      <div class="step-dot on"></div>
+      <div class="step-dot"></div>
+      <div class="step-dot"></div>
+    </div>
+
+    <div class="card-eyebrow">Step 1 of 3</div>
+    <h2>Join the club</h2>
+    <p class="form-desc">Start creating clean links and insightful analytics today.</p>
+
+    <form action="/" method="post" id="signupForm">
+      <div class="field field-anim fa-1">
+        <label>Username</label>
+        <div class="input-wrap">
+          <span class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </span>
+          <input type="text" name="username" placeholder="username" required>
+        </div>
+      </div>
+
+      <div class="field field-anim fa-2">
+        <label>Email Address</label>
+        <div class="input-wrap">
+          <span class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8l10 6 10-6"/></svg>
+          </span>
+          <input type="email" name="email" placeholder="username@gmail.com" required>
+        </div>
+      </div>
+
+      <div class="field-anim fa-3">
+        <span class="role-label">Account Role</span>
+        <div class="role-grid">
+          <div class="role-card">
+            <input type="radio" name="role" id="roleUser" value="user" checked>
+            <label for="roleUser">
+              <span class="role-icon">🙋</span>
+              <span class="role-text">
+                <span class="role-name">User</span>
+              </span>
+            </label>
+          </div>
+          <div class="role-card">
+            <input type="radio" name="role" id="roleAdmin" value="admin">
+            <label for="roleAdmin">
+              <span class="role-icon">🛡️</span>
+              <span class="role-text">
+                <span class="role-name">Admin</span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row field-anim fa-4">
+        <div class="field">
+          <label>Password</label>
+          <input type="password" name="password" id="password" placeholder="••••••••" required>
+          <div class="strength-track">
+            <div class="strength-seg" id="s1"></div>
+            <div class="strength-seg" id="s2"></div>
+            <div class="strength-seg" id="s3"></div>
+            <div class="strength-seg" id="s4"></div>
+          </div>
         </div>
 
-        <div class="input-group">
-            <label>Email</label>
-            <input type="email" name="email" required>
+        <div class="field">
+          <label>Confirm</label>
+          <input type="password" name="confirmpassword" id="confirm" placeholder="••••••••" required>
         </div>
+      </div>
 
-        <div class="input-group">
-            <label>Role</label>
-            <select name="role" style="background-color: #f9fafb;" required>
-                <option value="">Select role</option>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-            </select>
-        </div>
-
-        <div class="input-group">
-            <label>Password</label>
-            <input type="password" name="password" required minlength="6">
-        </div>
-
-        <div class="input-group">
-            <label>Confirm Password</label>
-            <input type="password" name="confirmpassword" required minlength="6">
-        </div>
-
-        <button type="submit">Create Account</button>
+      <button type="submit" class="btn-create">
+        Create Account
+        <span class="btn-arrow">→</span>
+      </button>
     </form>
 
-    <div class="login-text">
-        Already registered? <a href="/login">Login here</a>
-    </div>
-</div>
+    <p class="signin-line">Already using Shortly? <a href="/login">Sign in</a></p>
+  </div>
+</main>
+
+<script>
+  const pw = document.getElementById('password');
+  const segs = ['s1','s2','s3','s4'].map(id => document.getElementById(id));
+  
+  pw.addEventListener('input', () => {
+    const v = pw.value;
+    let score = v.length > 0 ? Math.min(Math.floor(v.length / 3) + 1, 4) : 0;
+    
+    segs.forEach((s, i) => {
+      s.style.background = i < score ? '#c94a2a' : 'var(--rp-warm)';
+    });
+  });
+</script>
 
 </body>
 </html>

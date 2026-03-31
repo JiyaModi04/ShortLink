@@ -3,66 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shortly - Admin Dashboard</title>
+<title>Shortly — Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
+/* --- RESET & VARIABLES --- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+:root {
+    --ink:       #111010;
+    --ink-mute:  #8a8585;
+    --red:       #c94a2a;
+    --border:    #d8d2c7;
+    --rp-bg:     #efe6d5;
+    --rp-card:   #fffef9;
+    --rp-warm:   #e2d4be;
+    --admin-gold: #b2802e;
 }
 
-body {
-    background: #f4f6f9;
-    padding: 20px;
+html, body { 
+    height: 100%; 
+    font-family: 'Instrument Sans', sans-serif; 
+    color: var(--ink); 
+    background: var(--rp-bg);
 }
 
 .dashboard {
     max-width: 1100px;
-    margin: auto;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
+/* --- HEADER --- */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 32px;
 }
 
 .logo {
+    font-family: 'Playfair Display', serif;
     font-size: 28px;
-    font-weight: bold;
+    font-weight: 900;
 }
 
-.logo span {
-    color: #2563eb;
-}
+.logo span { color: var(--red); }
 
 .logout-btn {
-    padding: 8px 16px;
-    background: #ef4444;
-    color: white;
-    border: none;
-    border-radius: 6px;
+    padding: 10px 20px;
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.2s;
 }
 
 .logout-btn:hover {
-    background: #dc2626;
+    background: #fff0ed;
+    border-color: var(--red);
+    color: var(--red);
 }
 
+/* --- MAIN CARD --- */
 .card {
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 10px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    background: var(--rp-card);
+    padding: 40px;
+    border-radius: 22px;
+    border: 1px solid rgba(201,74,42,0.16);
+    box-shadow: 0 14px 44px rgba(17,16,16,0.06);
+    position: relative;
+    overflow: hidden;
 }
 
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--ink), var(--admin-gold));
+}
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* --- TABLE STYLING --- */
 .table-container {
     overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: white;
 }
 
 table {
@@ -71,50 +108,77 @@ table {
 }
 
 thead {
-    background: #2563eb;
-    color: white;
+    background: #f9f7f2;
+    border-bottom: 2px solid var(--border);
 }
 
 thead th {
-    padding: 12px;
+    padding: 16px;
     text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--ink-mute);
+    font-weight: 800;
 }
 
 tbody tr {
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #f1eee9;
     transition: 0.2s;
 }
 
 tbody tr:hover {
-    background: #eef2ff;
+    background: #fffcf5;
 }
 
 td {
-    padding: 12px;
+    padding: 16px;
     font-size: 14px;
+    vertical-align: middle;
 }
 
+/* --- USER LINK --- */
+.user-link {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1.5px solid var(--rp-warm);
+    transition: 0.2s;
+}
+
+.user-link:hover {
+    color: var(--red);
+    border-color: var(--red);
+}
+
+/* --- BADGES --- */
 .role-badge {
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
 }
 
 .role-admin {
-    background: #dbeafe;
-    color: #1e40af;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
 }
 
 .role-user {
     background: #e0f2fe;
     color: #0369a1;
+    border: 1px solid #bae6fd;
 }
 
 .no-users {
     text-align: center;
-    color: #666;
-    padding: 20px;
+    color: var(--ink-mute);
+    padding: 60px;
+    font-style: italic;
 }
 
 </style>
@@ -125,7 +189,7 @@ td {
 <div class="dashboard">
 
     <div class="header">
-        <div class="logo">Short<span>ly</span></div>
+        <div class="logo">Shortly<span>.</span></div>
 
         <form action="/logout" method="post">
             <button class="logout-btn">Logout</button>
@@ -133,7 +197,12 @@ td {
     </div>
 
     <div class="card">
-        <h2 style="margin-bottom:15px;">All Users</h2>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px;">
+            <h2 style="margin-bottom: 0;">User Management</h2>
+            <span style="font-size: 12px; font-weight: 700; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 1px;">
+                Admin Control Panel
+            </span>
+        </div>
 
         <% if (users.length > 0) { %>
 
@@ -142,8 +211,8 @@ td {
             <thead>
                 <tr>
                     <th>Username</th>
-                    <th>Email</th>
-                    <th>Role</th>
+                    <th>Email Address</th>
+                    <th>Access Level</th>
                 </tr>
             </thead>
 
@@ -151,9 +220,11 @@ td {
                 <% users.forEach(user => { %>
                 <tr>
                     <td>
-                        <a href="/admin/user/<%= user.id %>"><%= user.username %></a>
+                        <a href="/admin/user/<%= user.id %>" class="user-link">
+                            <%= user.username %>
+                        </a>
                     </td>
-                    <td><%= user.email %></td>
+                    <td style="color: var(--ink-soft); font-weight: 500;"><%= user.email %></td>
                     <td>
                         <span class="role-badge <%= user.role === 'admin' ? 'role-admin' : 'role-user' %>">
                             <%= user.role %>
@@ -166,7 +237,7 @@ td {
         </div>
 
         <% } else { %>
-            <div class="no-users">No registered users found.</div>
+            <div class="no-users">No registered accounts found in the system.</div>
         <% } %>
 
     </div>

@@ -2,142 +2,208 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>User Links</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shortly Admin — User Links</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+/* --- RESET & VARIABLES --- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --ink:       #111010;
+    --ink-mute:  #8a8585;
+    --red:       #c94a2a;
+    --border:    #d8d2c7;
+    --rp-bg:     #efe6d5;
+    --rp-card:   #fffef9;
+    --rp-warm:   #e2d4be;
+    --blue-soft: #e0f2fe;
 }
 
-body {
-    background: #f4f6f9;
-    padding: 20px;
+html, body { 
+    height: 100%; 
+    font-family: 'Instrument Sans', sans-serif; 
+    color: var(--ink); 
+    background: var(--rp-bg);
 }
 
 .dashboard {
     max-width: 1200px;
-    margin: auto;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
+/* --- HEADER --- */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .logo {
-    font-size: 26px;
-    font-weight: bold;
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
 }
 
-.logo span {
-    color: #2563eb;
-}
+.logo span { color: var(--red); }
 
 .back-btn {
-    padding: 8px 14px;
-    background: #111827;
+    padding: 10px 18px;
+    background: var(--ink);
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
+    font-weight: 600;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 .back-btn:hover {
-    background: black;
+    background: #000;
+    transform: translateX(-3px);
 }
 
+/* --- MAIN CARD --- */
 .card {
-    background: white;
-    padding: 25px;
+    background: var(--rp-card);
+    padding: 40px;
+    border-radius: 22px;
+    border: 1px solid rgba(201,74,42,0.16);
+    box-shadow: 0 14px 44px rgba(17,16,16,0.06);
+}
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+h2::before {
+    content: '';
+    width: 4px;
+    height: 24px;
+    background: var(--red);
     border-radius: 10px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-.card h2 {
-    margin-bottom: 20px;
-    font-weight: 500;
+h2 em {
+    font-style: italic;
+    color: var(--red);
+    margin-left: 8px;
 }
 
+/* --- TABLE STYLING --- */
 .table-container {
     overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--border);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    background: white;
 }
 
 thead {
-    background: #2563eb;
-    color: white;
+    background: #f9f7f2;
+    border-bottom: 2px solid var(--border);
 }
 
 thead th {
-    padding: 12px;
+    padding: 16px;
     text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--ink-mute);
+    font-weight: 700;
 }
 
 tbody tr {
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #f1eee9;
     transition: 0.2s;
 }
 
 tbody tr:hover {
-    background: #eef2ff;
+    background: #fffcf5;
 }
 
 td {
-    padding: 12px;
+    padding: 16px;
     font-size: 14px;
     vertical-align: middle;
 }
 
-/* URL styling */
+/* --- CONTENT STYLING --- */
 .url-text {
     max-width: 200px;
     word-break: break-all;
-    color: #555;
-}
-
-/* Badge */
-.code-badge {
-    background: #e0f2fe;
-    padding: 6px 12px;
-    border-radius: 20px;
-    color: #0369a1;
-    font-weight: 500;
-}
-
-/* QR */
-.qr-image {
-    border-radius: 6px;
-}
-
-/* Button */
-.action-btn {
-    padding: 6px 12px;
-    background: #2563eb;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
     font-size: 13px;
-    display: inline-block;
+    color: var(--ink-mute);
+}
+
+.code-badge {
+    background: var(--blue-soft);
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: #0369a1;
+    font-weight: 700;
+    font-family: monospace;
+    font-size: 13px;
+}
+
+.qr-image {
+    border: 1px solid var(--border);
+    padding: 4px;
+    background: white;
+    border-radius: 8px;
+}
+
+.short-link-styled {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1.5px solid var(--rp-warm);
+}
+
+.short-link-styled:hover {
+    border-color: var(--red);
+    color: var(--red);
+}
+
+/* --- BUTTONS --- */
+.action-btn {
+    padding: 8px 16px;
+    background: var(--ink);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
 }
 
 .action-btn:hover {
-    background: #1d4ed8;
+    background: var(--red);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(201,74,42,0.2);
 }
 
 .no-links {
     text-align: center;
-    color: #666;
-    padding: 20px;
+    color: var(--ink-mute);
+    padding: 60px;
+    font-style: italic;
 }
 </style>
 
@@ -148,13 +214,13 @@ td {
 <div class="dashboard">
 
     <div class="header">
-        <div class="logo">Short<span>ly</span></div>
-        <button class="back-btn" onclick="history.back()">← Back</button>
+        <div class="logo">Shortly<span>.</span></div>
+        <button class="back-btn" onclick="history.back()">← Back to Admin</button>
     </div>
 
     <div class="card">
 
-        <h2><%= user.username %> - Links</h2>
+        <h2>Managing Links for: <em><%= user.username %></em></h2>
 
         <% if (links.length > 0) { %>
 
@@ -163,26 +229,28 @@ td {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Original URL</th>
-                    <th>Short URL</th>
+                    <th>Original Destination</th>
+                    <th>Shortly URL</th>
                     <th>Code</th>
-                    <th>QR</th>
-                    <th>Clicks</th>
-                    <th>Analytics</th>
+                    <th>QR Meta</th>
+                    <th style="text-align:center;">Clicks</th>
+                    <th>Management</th>
                 </tr>
             </thead>
 
             <tbody>
                 <% links.forEach(link => { %>
                 <tr>
-                    <td><%= link.id %></td>
+                    <td style="font-weight: 600; color: var(--ink-mute);">#<%= link.id %></td>
 
                     <td class="url-text">
                         <%= link.original_url %>
                     </td>
 
-                    <td class="url-text">
-                       <%= link.short_url %>
+                    <td>
+                       <a href="<%= link.short_url %>" class="short-link-styled" target="_blank">
+                           <%= link.short_url %>
+                       </a>
                     </td>
 
                     <td>
@@ -192,16 +260,16 @@ td {
                     </td>
 
                     <td>
-                        <img src="<%= link.qrcode_path %>" width="70" class="qr-image">
+                        <img src="<%= link.qrcode_path %>" width="60" class="qr-image" alt="QR Code">
                     </td>
 
-                    <td>
-                        <strong><%= link.count %></strong>
+                    <td style="text-align:center;">
+                        <strong style="font-size: 16px;"><%= link.count %></strong>
                     </td>
 
                     <td>
                         <a href="/admin/link/<%= link.id %>" class="action-btn">
-                            View
+                            View Analytics
                         </a>
                     </td>
                 </tr>
@@ -211,7 +279,7 @@ td {
         </div>
 
         <% } else { %>
-            <div class="no-links">No links found for this user.</div>
+            <div class="no-links">No link telemetry found for this user handle.</div>
         <% } %>
 
     </div>
