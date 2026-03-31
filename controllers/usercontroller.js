@@ -5,7 +5,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {nanoid} = require('nanoid');
 const qrcode = require('qrcode');
-
+const Jimp = require('jimp').default || require('jimp');
+const QRCodeStyling = require("qr-code-styling-node");
 
 const getregisteruser = (req, res, next) => {
     try {
@@ -181,7 +182,7 @@ const refreshaccesstoken = async (req, res) => {
 
     res.cookie("accesstoken", newaccesstoken, { httpOnly: true });
 
-    const userdata = result.rows[0];
+    const userdata = user.rows[0];
 
     if(userdata.role === "admin"){
       return res.redirect("/admin/dashboard");
@@ -267,8 +268,23 @@ const posturluser = async (req, res) => {
 const generate_qr_code = async (req, res) => {
   try {
 
-    const { original_url,short_code_option, custom_code, expiry_date } = req.body;
+    const { original_url, short_code_option, custom_code, expiry_date, Template } = req.body;
     const user_id = req.user.id;
+
+    const templates = {
+    default: { dark: "#000000", light: "#ffffff", width: 500, margin: 2 },
+    modern: { dark: "#1a73e8", light: "#ffffff", width: 700, margin: 1 },
+    dark: { dark: "#ffffff", light: "#000000", width: 600, margin: 2 },
+    sunset: { dark: "#ff5e57", light: "#fff5f5", width: 600, margin: 2 },
+    forest: { dark: "#065f46", light: "#ecfdf5", width: 650, margin: 2 },
+    royal: { dark: "#4c1d95", light: "#f5f3ff", width: 700, margin: 1 },
+    neon: { dark: "#00ffcc", light: "#000000", width: 650, margin: 1 },
+    gold: { dark: "#bfa100", light: "#fffbea", width: 700, margin: 2 },
+    candy: { dark: "#ff3cac", light: "#fff0f6", width: 600, margin: 2 },
+    ocean: { dark: "#0369a1", light: "#e0f2fe", width: 650, margin: 2 }
+};
+
+    const style = templates[Template] || templates.default;
 
     const existing = await pool.query(
       "SELECT * FROM links WHERE original_url = $1 AND user_id = $2",
@@ -284,106 +300,100 @@ const generate_qr_code = async (req, res) => {
       finalCode = existing.rows[0].short_code;
 
       if (existing.rows[0].qrcode_path) {
-      return res.send({
-      message: "QR already exists",
-      short_url,
-      qr_path: existing.rows[0].qrcode_path
-    });
-  }
-
-    const options = {
-      type: "png",
-      quality: 1.5,
-      width: 2000,
-      margin: 3,
-      color: {
-      dark: "#000000",   
-      light: "#ffffff"  
-    }
-    };
-
-    const fileName = `qr_${finalCode}.png`;
-    const filePath = path.join(__dirname, "../uploads/qrcodes", fileName);
-
-    await qrcode.toFile(filePath, short_url, options);
-    
-    const img_path = `/uploads/qrcodes/${fileName}`;
-    console.log(img_path);
-
-    await pool.query(
-      "UPDATE links SET qrcode_path = $1 WHERE short_code = $2",
-      [img_path, finalCode]
-    );
+        return res.send({
+          message: "QR already exists",
+          short_url,
+          qr_path: existing.rows[0].qrcode_path
+        });
+      }
 
     } else {
 
-    if (short_code_option === "custom") {
+      if (short_code_option === "custom") {
 
-      if (!custom_code || custom_code.trim() === "") {
-        return res.status(400).send("Custom code cannot be empty");
-      }
+        if (!custom_code || custom_code.trim() === "") {
+          return res.status(400).send("Custom code cannot be empty");
+        }
 
-      const existing_custom = await pool.query(
-        "SELECT * FROM links WHERE short_code = $1",
-        [custom_code]
-      );
+        const existing_custom = await pool.query(
+          "SELECT * FROM links WHERE short_code = $1",
+          [custom_code]
+        );
 
-      if (existing_custom.rows.length > 0) {
-        return res.status(400).send("Short code already taken");
-      }
+        if (existing_custom.rows.length > 0) {
+          return res.status(400).send("Short code already taken");
+        }
 
-      finalCode = custom_code;
+        finalCode = custom_code;
 
-    } else {
-      finalCode = nanoid(6);
-
-      let check = await pool.query(
-        "SELECT * FROM links WHERE short_code = $1",
-        [finalCode]
-      );
-
-      while (check.rows.length > 0) {
+      } else {
         finalCode = nanoid(6);
-        check = await pool.query(
+
+        let check = await pool.query(
           "SELECT * FROM links WHERE short_code = $1",
           [finalCode]
         );
+
+        while (check.rows.length > 0) {
+          finalCode = nanoid(6);
+          check = await pool.query(
+            "SELECT * FROM links WHERE short_code = $1",
+            [finalCode]
+          );
+        }
       }
+
+      short_url = `http://localhost:3000/${finalCode}`;
+
+      await pool.query(
+        "INSERT INTO links (user_id, original_url, short_code, expiry_date, short_url) VALUES ($1, $2, $3, $4, $5)",
+        [user_id, original_url, finalCode, expiry_date, short_url]
+      );
     }
-
-    short_url =  `http://localhost:3000/${finalCode}`;
-
-    await pool.query(
-      "INSERT INTO links (user_id, original_url, short_code, expiry_date, short_url) VALUES ($1, $2, $3, $4, $5)",
-      [user_id, original_url, finalCode, expiry_date, short_url]
-    );
-
-    const options = {
-      type: "png",
-      quality: 1.5,
-      width: 2000,
-      margin: 3,
-      color: {
-      dark: "#000000",   
-      light: "#ffffff"  
-    }
-    };
 
     const fileName = `qr_${finalCode}.png`;
     const filePath = path.join(__dirname, "../uploads/qrcodes", fileName);
 
-    await qrcode.toFile(filePath, short_url, options);
-    
+    const buffer = await qrcode.toBuffer(short_url, {
+      width: style.width,
+      margin: style.margin,
+      color: {
+        dark: style.dark,
+        light: style.light
+      },
+      errorCorrectionLevel: 'H'
+    });
+
+    const qrImage = await Jimp.read(buffer);
+
+    qrImage.sepia();
+
+    const logoPath = req.file ? req.file.path : null;
+
+    if (logoPath) {
+      const logo = await Jimp.read(logoPath);
+
+      logo.resize(qrImage.bitmap.width * 0.2, Jimp.AUTO);
+
+      const x = (qrImage.bitmap.width - logo.bitmap.width) / 2;
+      const y = (qrImage.bitmap.height - logo.bitmap.height) / 2;
+
+      qrImage.composite(logo, x, y);
+    }
+
+    await qrImage.writeAsync(filePath);
+
     const img_path = `/uploads/qrcodes/${fileName}`;
 
     await pool.query(
       "UPDATE links SET qrcode_path = $1 WHERE short_code = $2",
       [img_path, finalCode]
     );
-   
-  }
+
     res.send({
-      message: "QR code generated"
+      message: "QR code generated",
+      short_url,
+      qr_path: img_path
     });
 
   } catch (err) {

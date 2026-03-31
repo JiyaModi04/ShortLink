@@ -2,7 +2,7 @@ const express = require('express');
 const userRouter = express.Router();
 const userController = require('../controllers/usercontroller');
 const { verifyUser, verifyAccessToken } = require('../service/auth');
-
+const { upload } = require('../middleware/upload');
 
 userRouter.get('/', userController.getregisteruser);
 
@@ -26,6 +26,6 @@ userRouter.post('/all_links',verifyAccessToken, verifyUser, userController.getli
 
 userRouter.get('/user/link/:id',verifyAccessToken,verifyUser,userController.view_analytics);
 
-userRouter.post('/user/dashboard/qrcode',verifyAccessToken,verifyUser,userController.generate_qr_code);
+userRouter.post('/user/dashboard/qrcode',verifyAccessToken,verifyUser,upload.single('logo'),userController.generate_qr_code);
 
 module.exports = userRouter;
