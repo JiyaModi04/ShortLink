@@ -151,7 +151,7 @@ input,select{
 <!-- TEMPLATE -->
 <div class="input-group">
 <label>QR Template</label>
-<select id="Template" name="Template">
+<select id="template" name="template">
 <option value="default">Default</option>
 <option value="modern">Modern Blue</option>
 <option value="dark">Dark Mode</option>
@@ -165,7 +165,6 @@ input,select{
 </select>
 </div>
 
-<!-- LOGO -->
 <div class="input-group">
 <label>Upload Logo (Optional)</label>
 <input type="file" id="logo" accept="image/*">
@@ -179,10 +178,8 @@ input,select{
 <div id="resultBox" class="result-box">
 <div id="resultContent"></div>
 </div>
-
 </div>
 
-<!-- 🔥 VIEW LINKS CARD -->
 <div class="card" style="padding:15px;">
 <form action="/all_links" method="post">
   <button class="btn btn-outline">View Analytics & All Links</button>
@@ -230,7 +227,7 @@ async function generateQR(){
   formData.append("custom_code",data.custom_code);
   formData.append("expiry_date",data.expiry_date);
   formData.append("short_code_option",data.short_code_option);
-  formData.append("Template",document.getElementById("Template").value);
+  formData.append("template",document.getElementById("template").value);
 
   const file=document.getElementById("logo").files[0];
   if(file){

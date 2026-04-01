@@ -2,7 +2,6 @@ const express = require('express');
 const adminRouter = express.Router();
 const adminController = require('../controllers/admincontroller');
 const { verifyAdmin, verifyAccessToken } = require('../service/auth');
-const { upload } = require('../middleware/upload');
 
 adminRouter.get('/dashboard',verifyAccessToken,verifyAdmin, adminController.getusers);
 

@@ -267,7 +267,7 @@ const posturluser = async (req, res) => {
 const generate_qr_code = async (req, res) => {
   try {
 
-    const { original_url, short_code_option, custom_code, expiry_date, Template } = req.body;
+    const { original_url, short_code_option, custom_code, expiry_date, template } = req.body;
     const user_id = req.user.id;
 
     const templates = {
@@ -279,11 +279,11 @@ const generate_qr_code = async (req, res) => {
     royal: { dark: "#4c1d95", light: "#f5f3ff", width: 700, margin: 1 },
     neon: { dark: "#00ffcc", light: "#000000", width: 650, margin: 1 },
     gold: { dark: "#bfa100", light: "#fffbea", width: 700, margin: 2 },
-    candy: { dark: "#ff3cac", light: "#fff0f6", width: 600, margin: 2 },
+    candy: { dark: "#b3005e", light: "#ffffff", width: 600, margin: 4 },
     ocean: { dark: "#0369a1", light: "#e0f2fe", width: 650, margin: 2 }
 };
 
-    const style = templates[Template] || templates.default;
+    const style = templates[template] || templates.default;
 
     const existing = await pool.query(
       "SELECT * FROM links WHERE original_url = $1 AND user_id = $2",
@@ -345,8 +345,8 @@ const generate_qr_code = async (req, res) => {
       short_url = `http://localhost:3000/${finalCode}`;
 
       await pool.query(
-        "INSERT INTO links (user_id, original_url, short_code, expiry_date, short_url) VALUES ($1, $2, $3, $4, $5)",
-        [user_id, original_url, finalCode, expiry_date, short_url]
+        "INSERT INTO links (user_id, original_url, short_code, expiry_date, short_url, template) VALUES ($1, $2, $3, $4, $5, $6)",
+        [user_id, original_url, finalCode, expiry_date, short_url,template]
       );
     }
 
@@ -370,7 +370,7 @@ const generate_qr_code = async (req, res) => {
     if (logoPath) {
       const logo = await Jimp.read(logoPath);
 
-      logo.resize(qrImage.bitmap.width * 0.2, Jimp.AUTO);
+      logo.resize(qrImage.bitmap.width * 0.15, Jimp.AUTO);
 
       const x = (qrImage.bitmap.width - logo.bitmap.width) / 2;
       const y = (qrImage.bitmap.height - logo.bitmap.height) / 2;
